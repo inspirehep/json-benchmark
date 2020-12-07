@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: json-benchmark
+spec:
+  replicas: 10
+  revisionHistoryLimit: 2
+  template:
+    spec:
+      containers:
+        - image: inspirehep/json-benchmark
+          name: json-benchmark
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 3Gi
