@@ -8,9 +8,9 @@ authors = ["CERN"]
 python = "^3.6"
 orjson = "^3.4.5"
 ujson = "^4.0.1"
-rapidjson = "^1.0.0"
 simplejson = "^3.17.2"
 ipdb = "^0.13.4"
+python-rapidjson = "^0.9.4"
 
 [tool.poetry.dev-dependencies]
 
