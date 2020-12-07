@@ -1,0 +1,67 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: inspire-qa
+  name: json-benchmark
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2G
+  storageClassName: meyrin-cephfs
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: inspire-qa
+  name: json-benchmark
+spec:
+  replicas: 10
+  revisionHistoryLimit: 2
+  template:
+    spec:
+      volumes:
+        - name: json-benchmark
+          persistentVolumeClaim:
+            claimName: json-benchmark
+      containers:
+        - image: inspirehep/json-benchmark
+          name: json-benchmark
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 3Gi
+          volumeMounts:
+            - name: json-benchmark
+              mountPath: /data
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: inspire-qa
+  name: json-benchmark-idler
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    spec:
+      volumes:
+        - name: json-benchmark
+          persistentVolumeClaim:
+            claimName: json-benchmark
+      containers:
+        - image: busybox
+          name: idler
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 3Gi
+          volumeMounts:
+            - name: json-benchmark
+              mountPath: /data
