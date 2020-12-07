@@ -21,7 +21,7 @@ metadata:
   labels:
     app.kubernetes.io/name: json-benchmark
 spec:
-  comletions: 10
+  completions: 10
   template:
     metadata:
       labels:
@@ -68,9 +68,10 @@ spec:
           persistentVolumeClaim:
             claimName: json-benchmark
       containers:
-        - image: bash
+        - image: inspirehep/json-benchmark
           name: idler
-          args: ['bash', '-c', 'while sleep 3600; do :; done']
+          command: ['bash']
+          args: ['-c', 'while sleep 3600; do :; done']
           resources:
             requests:
               memory: 1Gi
