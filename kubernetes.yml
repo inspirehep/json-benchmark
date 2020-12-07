@@ -13,19 +13,15 @@ spec:
   storageClassName: meyrin-cephfs
 
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   namespace: inspire-qa
   name: json-benchmark
   labels:
     app.kubernetes.io/name: json-benchmark
 spec:
-  replicas: 10
-  revisionHistoryLimit: 2
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: json-benchmark
+  comletions: 10
   template:
     metadata:
       labels:
@@ -46,6 +42,7 @@ spec:
           volumeMounts:
             - name: json-benchmark
               mountPath: /data
+      restartPolicy: Never
 
 ---
 apiVersion: apps/v1
@@ -71,8 +68,9 @@ spec:
           persistentVolumeClaim:
             claimName: json-benchmark
       containers:
-        - image: busybox
+        - image: bash
           name: idler
+          args: ['bash', '-c', 'while sleep 3600; do :; done']
           resources:
             requests:
               memory: 1Gi
