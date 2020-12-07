@@ -8,7 +8,9 @@
 FROM python:3.8
 
 WORKDIR /opt/src/
+ENTRYPOINT [ "python3" ]
+CMD [ "tests.py" ]
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-CMD [ "tests.py" ]
