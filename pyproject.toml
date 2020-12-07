@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "json-benchmark"
+version = "0.1.0"
+description = "Benchmark of JSON implementation on INSPIRE data"
+authors = ["CERN"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+orjson = "^3.4.5"
+ujson = "^4.0.1"
+rapidjson = "^1.0.0"
+simplejson = "^3.17.2"
+ipdb = "^0.13.4"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api" 
