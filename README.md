@@ -2,7 +2,9 @@
 
 ## Introduction
 
-Performance of JSON serialization and deserialization in the Python standard library is sometimes slow. Fortunately, there exist several alternative implementations, but their performance depends on the type of data (size, complexity) to be (de)serialized. This is why it's useful to benchmark different libraries on realistic data and on the hardware where they will eventually run.
+Performance of JSON serialization and deserialization in the Python standard library is sometimes slow. Fortunately, there exist several alternative implementations, but their performance depends on the type of data (size, complexity) to be (de)serialized. This is why it's useful to benchmark different libraries on realistic data and on the hardware where they will eventually run. As the [results](#results) show, `orjson` is the clear winner.
+
+Performance of JSON schema validation is also slow, so looking for alternatives there is also useful, but none of them seem satisfactory (see [further](#JSON-schema-validation)).
 
 ## What we tested
 
@@ -23,7 +25,7 @@ Each of the 3 datasets has 1000 records, selected from the top results of follow
 
 Note that the two latter datasets are effectively random, as no sort order has been specified.
 
-The datasets are two large to be included in this repo, but the `fetch_data.py` script to generate them is present.
+The datasets are too large to be included in this repo, but the `fetch_data.py` script to generate them is present.
 
 ### Benchmark
 
@@ -70,3 +72,16 @@ The green bar is the average, the orange bar is the median. The boxes go from fi
 
 `orjson` is the clear winner. Serializing large records is particularly impressive.
 
+## JSON schema validation
+
+We're currently using [jsonschema](https://github.com/Julian/jsonschema) for validation. We looked at two other libraries:
+* [fastjsonschema](https://github.com/horejsek/python-fastjsonschema/)
+* [jsonschema-rs](https://github.com/Stranger6667/jsonschema-rs/tree/master/python)
+
+## fastjsonschema
+
+This is a pure-python implementation, which precompiles the schema into a validator so is in principle much faster than the library we're currently using. While this is true for a small record where we found a 10x performance increase, a very large record resulted in very similar running times. Investigating further, we found [a critical bug](https://github.com/horejsek/python-fastjsonschema/issues/107) preventing us from using it right now.
+
+## jsonschema-rs
+
+This is a rust implementation, which posts very impressive benchmarks. However, it doesn't work for us currently as it doesn't allow custom `format` validators. We should look at it again when it's more mature.
