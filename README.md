@@ -64,7 +64,7 @@ most-cited|ujson|dump|3.6458546351641417
 most-cited|rapidjson|dump|3.466435482725501
 most-cited|simplejson|dump|8.050390353426337
 
-![Plot of results](https://github.com/inspirehep/json-benchmark/blob/main/docker-compose.yml)
+![Plot of results](https://github.com/inspirehep/json-benchmark/blob/main/results.png)
 
 The green bar is the average, the orange bar is the median. The boxes go from first to third quartile, and the whiskers from minimum to maximum.
 
